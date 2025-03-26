@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">UberHelpV8</string>
+    <string name="accessibility_service_description">UberHelpV8 uses accessibility services to read trip details from the Uber Driver app and automatically accept profitable trips.</string>
+    <string name="toggle_on">Service Active</string>
+    <string name="toggle_off">Service Inactive</string>
+    <string name="settings">Settings</string>
+    <string name="guide">Accessibility Setup Guide</string>
+    <string name="accessibility_guide_title">Enable Accessibility Service</string>
+    <string name="accessibility_guide_desc">To use UberHelpV8, you need to enable the Accessibility Service. Follow these steps:</string>
+    <string name="step_1">1. Go to Settings > Accessibility</string>
+    <string name="step_2">2. Find and tap on UberHelpV8</string>
+    <string name="step_3">3. Toggle the switch to ON</string>
+    <string name="step_4">4. Tap OK on the permission dialog</string>
+    <string name="step_5">5. Return to the app</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="error_restart">An error occurred. Please restart your phone.</string>
+</resources> 

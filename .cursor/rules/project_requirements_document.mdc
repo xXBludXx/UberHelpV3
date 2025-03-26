@@ -1,0 +1,154 @@
+---
+description: Apply these rules when making changes to the project
+globs:
+alwaysApply: true
+---
+
+Update this rule if user requested changes to the project requirement, etc.
+# Project Requirements Document (PRD) for UberHelpV8
+
+---
+
+## 1. Project Overview
+
+UberHelpV8 is an Android app designed to improve the efficiency and earnings potential for Uber drivers by leveraging advanced accessibility services and on-device AI. The app reads text from the Uber Driver app using Android’s Accessibility Service to capture trip details, such as routes and potential earnings. It then uses TensorFlow Lite machine learning models to evaluate each trip using historical data, current trends, and special conditions (like holidays and Uber’s HotSpot Map). When a trip is identified as profitable, UberHelpV8 automatically accepts it, ensuring that the driver does not miss lucrative opportunities.
+
+The app is being built primarily for personal use by a single driver with a focus on automating the decision-making process and streamlining the user experience. With a minimalistic, dark-themed interface inspired by modern design trends and Apple's aesthetic, the project’s success will be measured by its ability to reliably extract trip data, accurately evaluate it in real time, and execute trip acceptance swiftly without manual intervention. The core objectives are enhanced earnings through quick decision-making, minimal user effort, and robust on-device privacy and data security.
+
+---
+
+## 2. In-Scope vs. Out-of-Scope
+
+### In-Scope
+- Implementation of the Android Accessibility Service to read and extract trip details from the Uber Driver app.
+- On-device machine learning evaluation using TensorFlow Lite to assess the profitability of trips based on historical data, location, time, and external internet trends.
+- Automated trip acceptance functionality once a trip meets predefined profitability criteria.
+- A minimalistic user interface featuring a dark theme with a prominent on/off toggle for activating the service.
+- A settings panel to configure operational details such as schedules and data preferences.
+- Local data storage using SQLite for storing trip data safely on the device.
+- On-device model retraining using the small locally accumulated dataset.
+- Clear guidance screens to help users set up and enable the required accessibility services.
+
+### Out-of-Scope
+- Cloud backend processing for AI or data storage (Firebase will only be considered if absolutely necessary, but primary functionality remains local).
+- Multi-user or global audience support; the app is intended for personal use.
+- Advanced error handling beyond a simple restart solution in case of operational issues.
+- Localization or support for multiple languages.
+- Extensive analytics or user monitoring features.
+
+---
+
+## 3. User Flow
+
+When the user first launches UberHelpV8, they are greeted with an Accessibility Setup screen that provides clear, step-by-step instructions on how to enable Android’s Accessibility Service required for the app to interact with the Uber Driver app. This screen includes visuals and straightforward directions, ensuring that even users with minimal technical knowledge can complete the setup quickly. Once the service is enabled, the app stores this configuration and moves to the main screen.
+
+On the main screen, the app’s simple, dark-themed interface displays a large on/off toggle button that controls the core functionality. When the toggle is turned on, the app begins constantly monitoring the Uber Driver app for incoming trip details. The captured data is then immediately processed by the on-device TensorFlow Lite ML model, which evaluates whether the trip is beneficial based on predefined criteria. If the evaluation determines that the trip is profitable, the app automatically initiates acceptance of the trip, ensuring a swift and efficient response without further user action.
+
+---
+
+## 4. Core Features
+
+- **Automated Trip Detail Extraction:**  
+  Uses Android Accessibility Service to read trip details from the Uber Driver app, capturing key information like potential routes and earnings estimates.
+
+- **Intelligent Trip Evaluation:**  
+  Incorporates TensorFlow Lite for on-device machine learning to analyze historical trip data, current location, time of day, and external trends. Uses metrics similar to perplexity and dynamic rule creation based on internet-sourced trends to determine profitability.
+
+- **Automated Trip Acceptance:**  
+  Automatically accepts trips deemed profitable by the AI evaluation process, ensuring that high-potential trips are not missed.
+
+- **Minimalistic User Interface:**  
+  A modern, dark-themed design with minimal elements—a main on/off toggle for activating or deactivating the service, alongside a settings panel for configuration and an accessibility setup guide.
+
+- **Local Data Management:**  
+  Uses SQLite for local storage of trip data and model retraining information, ensuring data privacy as all information is kept on the device.
+
+- **On-Device Model Retraining:**  
+  Periodically retrains the machine learning model with accumulated local data, optimizing evaluation performance without reliance on cloud processing.
+
+---
+
+## 5. Tech Stack & Tools
+
+- **Frontend / App Development:**  
+  - Android app development using Java or Kotlin.
+  - Modern dark-themed UI inspired by Apple’s design with minimalistic aesthetic.
+
+- **Machine Learning / AI:**  
+  - TensorFlow Lite for on-device, efficient machine learning model evaluation.
+  - Periodic model retraining using local data.
+
+- **Data Storage:**  
+  - SQLite for local storage of historical trip data.
+
+- **Accessibility Services:**  
+  - Android Accessibility Service to interact with the Uber Driver app.
+
+- **Optional Cloud Services:**  
+  - Google Firebase (only as a backup option for cloud storage or processing, though primarily everything is planned to be executed locally).
+
+- **IDE and Plugin Integration:**  
+  - Cursor for advanced, AI-powered coding and real-time suggestions.
+  - Claude 3.7 Sonnet for hybrid reasoning and intelligent code support.
+
+---
+
+## 6. Non-Functional Requirements
+
+- **Performance:**  
+  - The app must process incoming trip data and perform AI evaluations in near real-time to ensure timely trip acceptance.
+  - Minimal load times and a swift response when toggling the service.
+
+- **Security & Privacy:**  
+  - Data is stored locally; no sensitive information is transmitted to external servers.
+  - Ensure compliance with Android’s accessibility guidelines and data protection standards.
+
+- **Usability:**  
+  - The interface should remain simple, intuitive, and easy to navigate.
+  - The Accessibility Setup guide must be clear and straightforward, reducing the learning curve.
+
+- **Reliability:**  
+  - The automated execution of trip acceptance should be robust.
+  - Error handling is basic (user restart) but should not lead to inconsistent device states.
+
+---
+
+## 7. Constraints & Assumptions
+
+- **Platform Constraint:**  
+  - The app will run on an Android device, specifically targeted for a Google Pixel 9 Fold with an AI chip, ensuring adequate on-device processing power for TensorFlow Lite models.
+
+- **Data & Model Size:**  
+  - All processing is performed on-device with a very limited local dataset, which influences the complexity and training speed of the ML model.
+
+- **User Base Assumption:**  
+  - The application is being developed for personal use by a single driver; hence, aspects like multi-user support and advanced error recovery are deprioritized.
+
+- **Internet Dependency:**  
+  - For trip evaluation, the AI model can use internet-sourced trends for rule creation, but this is assumed to have minimal impact given the processing requirements.
+
+- **Fallback for Errors:**  
+  - In case of misinterpretation of data or failures during automated acceptance, the user manually restarts the device as a basic recovery mechanism.
+
+---
+
+## 8. Known Issues & Potential Pitfalls
+
+- **Accessibility Service Reliability:**  
+  - Dependence on Android Accessibility Services may lead to compatibility issues with different versions of the Uber Driver app. Developers should test thoroughly against current app versions.
+
+- **Real-Time Data Processing Delays:**  
+  - On-device processing with TensorFlow Lite, while optimized, might introduce minor delays if the device encounters unexpected high loads. Continuous testing on the target device (Google Pixel 9 Fold) is essential.
+
+- **AI Model Accuracy:**  
+  - Since model decisions are based on limited local data and internet scraped trends, inaccuracies in evaluation thresholds or rule generation may occur. Periodic manual reviews may be necessary initially.
+
+- **Error Handling:**  
+  - The simplistic approach of requiring a device restart for recovery might not always be sufficient. Log mechanisms or simple notifications might be considered later if error rates become problematic.
+
+- **Privacy and Data Security:**  
+  - Although data is stored locally for personal use, any future extension or sharing of data should carefully consider privacy implications and local security practices.
+
+---
+
+This PRD serves as the definitive guide for subsequent technical documents and implementations. It leaves no room for ambiguity by detailing every required feature and process in plain language while addressing both functional and non-functional aspects.

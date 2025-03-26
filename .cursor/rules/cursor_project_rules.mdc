@@ -1,0 +1,74 @@
+---
+description: Apply these rules when making changes to the project
+globs:
+alwaysApply: true
+---
+
+Update this rule if user requested changes to the project requirement, etc.
+# Tech Stack Document
+
+This document outlines the technology choices for the UberHelpV8 Android app. Written in everyday language, it aims to explain each decision to ensure understanding, regardless of technical background.
+
+## Frontend Technologies
+
+The UberHelpV8 app employs effective Android technologies to create a modern and minimalistic user experience. Key components include:
+
+*   **Android SDK**: The fundamental toolkit for Android apps, ensuring compatibility across diverse devices, with a focus on the Google Pixel 9 Fold.
+*   **Kotlin**: Chosen for its modern coding features and efficiency, offering a responsive and elegant mobile application environment.
+*   **Android UI Components**: Utilized to design a sleek, dark-themed, minimalistic interface, loosely inspired by Apple's style, featuring an intuitive on/off toggle button for ease of use.
+
+These choices ensure the app is both visually appealing and functionally robust, providing drivers with a straightforward and hassle-free app interaction.
+
+## Backend Technologies
+
+Despite its mobile-focused nature, UberHelpV8 uses efficient backend technologies for data management and machine learning:
+
+*   **TensorFlow Lite**: A mobile-friendly version of TensorFlow, facilitating on-device machine learning for smart trip data analysis and decision-making.
+*   **SQLite**: Employs secure and efficient local data storage for historical trip data, ensuring quick access and enhanced privacy.
+*   **Google Firebase (Optional)**: A supplementary tool for potential cloud-based features, although the primary focus remains on local processing.
+*   **Android Accessibility Service**: Enables the app to read trip details from the Uber Driver app automatically.
+
+These backend elements ensure real-time data processing and continuous learning for accurate trip evaluations.
+
+## Infrastructure and Deployment
+
+Efficient deployment is crucial for consistent app performance. Key infrastructure elements include:
+
+*   **Development Environment**: Utilizes IDEs, powered by technologies like Cursor, for accurate and efficient development.
+*   **CI/CD Pipelines**: Ensures reliable updates and testing through best practices in continuous integration and deployment, maintaining app stability.
+*   **Version Control**: Managed via GitHub (repository: [GitHub Repo](https://github.com/xXBludXx/UberHelpV3.git)) for tracking changes and ensuring smooth updates.
+*   **On-Device Deployment**: Designed for optimized performance on devices like the Google Pixel 9 Fold, leveraging its advanced AI capabilities.
+
+These infrastructure choices guarantee robustness, scalability, and ease of updates.
+
+## Third-Party Integrations
+
+To enhance the app's capabilities, we have integrated key third-party tools:
+
+*   **Cursor**: Provides real-time coding suggestions through its AI-powered platform, enhancing development efficiency.
+*   **Claude 3.7 Sonnet**: Powers advanced AI insights to complement on-device Machine Learning capabilities from TensorFlow Lite.
+
+These integrations contribute to high-quality code and effective app functionality.
+
+## Security and Performance Considerations
+
+Ensuring app security and efficiency is paramount. Measures include:
+
+*   **Local Data Storage**: Trip and location data is stored locally using SQLite, reducing transmission risks.
+*   **Responsible Accessibility Permissions**: Adherence to Android security protocols for controlled and secure data access.
+*   **Optimized Machine Learning**: TensorFlow Lite ensures efficient app performance without overloading the device.
+*   **Simple Error Recovery**: Restarting the device is a reliable fallback for any functional errors.
+
+These steps ensure both the security and performance of UberHelpV8, delivering a smooth and private user experience.
+
+## Conclusion and Summary
+
+To recap, UberHelpV8 employs a sophisticated yet efficient technology stack including:
+
+*   **Frontend**: Kotlin with Android UI components for a sleek, minimalistic interface.
+*   **Backend**: TensorFlow Lite for on-device learning and SQLite for local data management, with optional Firebase support.
+*   **Infrastructure**: Built for stable deployment with modern tools and practices.
+*   **Third-Party Tools**: Enhancements provided by Cursor and Claude 3.7 Sonnet for superior development and app intelligence.
+*   **Security & Performance**: Prioritizing local processing, efficient device use, and straightforward recovery protocols.
+
+Overall, these choices support UberHelpV8 in achieving its aim of helping Uber drivers maximize their earnings through efficient, automated trip evaluations, with a focus on security, efficiency, and user-friendliness. The development is also shared openly on GitHub, promoting transparency and collaborative improvement.

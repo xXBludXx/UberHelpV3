@@ -1,0 +1,40 @@
+---
+description: Apply these rules when making changes to the project
+globs:
+alwaysApply: true
+---
+
+Update this rule if user requested changes to the project requirement, etc.
+flowchart TD
+    Start[Start App]
+    UI[Main Screen: On-Off Toggle]
+    AccessibilityGuide[Guide to Enable Accessibility]
+    AccessibilityService[Accessibility Service]
+    TripNotification[Trip Notification from Uber App]
+    ReadTrip[Read Trip Details: Route and Earnings]
+    DataStorage[Store Trip Data in SQLite]
+    AIModel[AI Evaluation with TensorFlow Lite]
+    Decision{Worth It?}
+    AcceptTrip[Automatically Accept Trip]
+    DeclineTrip[Do Not Accept Trip]
+    ModelRetrain[On-Device Model Retraining]
+    Settings[Configure Schedules and Data Preferences]
+    ErrorHandling[Error: Restart Phone]
+
+    Start --> UI
+    UI --> AccessibilityGuide
+    AccessibilityGuide --> AccessibilityService
+    AccessibilityService --> TripNotification
+    TripNotification --> ReadTrip
+    ReadTrip --> DataStorage
+    DataStorage --> AIModel
+    AIModel --> Decision
+    Decision -- Yes --> AcceptTrip
+    Decision -- No --> DeclineTrip
+    AcceptTrip --> ModelRetrain
+    DeclineTrip --> ModelRetrain
+    ModelRetrain --> UI
+    AccessibilityService --> ErrorHandling
+    ErrorHandling --> UI
+    UI --> Settings
+    Settings --> UI

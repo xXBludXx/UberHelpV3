@@ -1,0 +1,56 @@
+---
+description: Apply these rules when making changes to the project
+globs:
+alwaysApply: true
+---
+
+Update this rule if user requested changes to the project requirement, etc.
+# Implementation plan
+
+## Phase 1: Environment Setup
+
+1. Install Android Studio (latest stable version) and ensure the Android SDK is set up for development. (Reference: project_requirements_document, Platform section)
+2. Open Android Studio and create a new project named “UberHelpV8” targeting the Android platform for the Google Pixel 9 Fold. (Reference: project_requirements_document, Core Functionality)
+3. Set up the project directory structure by creating folders for UI components (`/app/src/main/res/layout/`), services (`/app/src/main/java/com/uberhelp/service/`), accessibility (`/app/src/main/java/com/uberhelp/accessibility/`), machine learning (`/app/src/main/java/com/uberhelp/ml/`), database (`/app/src/main/java/com/uberhelp/db/`), and model classes (`/app/src/main/java/com/uberhelp/model/`). (Reference: project_requirements_document, App Structure & Flow)
+4. **Validation**: Confirm that the project builds correctly by running a Gradle sync and a simple "Hello World" activity launch.
+
+## Phase 2: Frontend (UI) Development
+
+5. Create the Main Activity UI layout file at `/app/src/main/res/layout/activity_main.xml` featuring an on/off toggle, dark theme elements, and an Apple-inspired minimalist design. (Reference: project_requirements_document, Minimalist UI)
+6. Implement the Main Activity by creating `/app/src/main/java/com/uberhelp/MainActivity.java` (or Kotlin equivalent) and integrate the on/off toggle to control the service. (Reference: project_requirements_document, Main Screen)
+7. Create the Settings panel UI in `/app/src/main/res/layout/activity_settings.xml` with configuration options for app behavior. (Reference: project_requirements_document, Settings Panel)
+8. Develop an Accessibility Setup Guide screen in `/app/src/main/res/layout/activity_guide.xml` to instruct users on enabling the Accessibility Service. (Reference: project_requirements_document, Accessibility Setup)
+9. **Validation**: Run the app in the emulator and confirm that all UI screens (Main, Settings, and Guide) render correctly in dark mode.
+
+## Phase 3: Backend (Service & ML) Development
+
+10. Implement the Android Accessibility Service by creating the file `/app/src/main/java/com/uberhelp/accessibility/UberAccessibilityService.java`. This service will monitor the Uber Driver app for trip details. (Reference: project_requirements_document, Core Functionality - Accessibility Service)
+11. Code logic within `UberAccessibilityService.java` to capture trip details (route, earnings) from the Uber Driver app using accessibility events. (Reference: project_requirements_document, Core Functionality)
+12. **Validation**: Log captured events in Logcat by enabling the service and verifying output when navigating through accessibility-enabled screens.
+13. Create a model class `TripData` at `/app/src/main/java/com/uberhelp/model/TripData.java` to represent the structure of trip details. (Reference: project_requirements_document, Data Handling & Privacy)
+14. Set up local data storage by implementing SQLite support. Create the helper class `/app/src/main/java/com/uberhelp/db/TripDatabaseHelper.java` to manage trip data storage securely on-device. (Reference: project_requirements_document, Local Data Storage)
+15. **Validation**: Insert and fetch dummy trip data from SQLite using unit tests in Android Studio.
+16. Integrate TensorFlow Lite by creating a class `/app/src/main/java/com/uberhelp/ml/TripEvaluationModel.java` that loads the .tflite model and performs evaluations to determine trip profitability. (Reference: project_requirements_document, AI-Driven Evaluation)
+17. Code the evaluation function in `TripEvaluationModel.java` to process inputs (historical trip data, internet-sourced trends) and output a decision on accepting the trip. (Reference: project_requirements_document, AI-Driven Evaluation)
+18. **Validation**: Run unit tests with simulated trip data to verify that the model returns consistent decisions.
+19. Develop the automated trip acceptance function by creating `/app/src/main/java/com/uberhelp/service/TripAcceptanceService.java`. This service will trigger acceptance actions if a trip is deemed profitable. (Reference: project_requirements_document, Automated Acceptance)
+20. Add functionality for on-device retraining by creating `/app/src/main/java/com/uberhelp/ml/ModelRetraining.java` which periodically retrains the ML model using locally stored SQLite data. (Reference: project_requirements_document, On-Device Retraining)
+21. **Validation**: Simulate trip input data and run the TripAcceptanceService to log automated acceptance, and test retraining routines with dummy data.
+
+## Phase 4: Integration
+
+22. Connect the on/off toggle in the Main Activity to start and stop the `UberAccessibilityService`. (Reference: project_requirements_document, Main Screen & Accessibility Setup)
+23. Link the captured trip details from `UberAccessibilityService` to the ML evaluation function in `TripEvaluationModel.java` and, based on the decision, invoke `TripAcceptanceService.java`. (Reference: project_requirements_document, AI-Driven Evaluation & Automated Acceptance)
+24. Integrate the Settings panel so that configuration changes are passed to all relevant services (accessibility, ML, and database handling). (Reference: project_requirements_document, Settings Panel)
+25. Implement basic error handling by creating `/app/src/main/java/com/uberhelp/util/ErrorHandler.java` which shows a dialog to the user advising a phone restart if critical errors are encountered. (Reference: project_requirements_document, Error Handling)
+26. **Validation**: Simulate a scenario (e.g., bad trip data) to trigger error handling and ensure the proper error message is displayed.
+
+## Phase 5: Deployment
+
+27. Configure build variants and signing configurations in the `build.gradle` file for a production build. (Reference: project_requirements_document, Deployment Considerations)
+28. Build a signed APK and install it on a Google Pixel 9 Fold device to perform end-to-end testing of all functionalities (Accessibility, ML evaluation, automatic trip acceptance, and error handling). (Reference: project_requirements_document, Target Audience & Deployment)
+29. **Validation**: Manually test the entire workflow on the device, ensuring that trip information is captured, evaluated by the TFLite model, and that profitable trips are automatically accepted as intended.
+
+*Note: Since this is an on-device Android app with integrated machine learning, ensure that all local processing remains privacy-preserving and that internet-sourced data used in trend analysis complies with the specified rules.*
+
+This concludes the implementation plan for the UberHelpV8 Android app.

@@ -1,0 +1,121 @@
+---
+description: Apply these rules when making changes to the project
+globs:
+alwaysApply: true
+---
+
+Update this rule if user requested changes to the project requirement, etc.
+# Frontend Guideline Document
+
+This document outlines the frontend architecture, design principles, and technologies used in the UberHelpV8 Android project. The goal of this project is to maximize Uber driver earnings by automating profitable trip acceptance using AI analysis. The guidelines ensure a clear understanding of the frontend setup for anyone, regardless of technical background.
+
+## 1. Frontend Architecture
+
+The frontend of UberHelpV8 is built as an Android application using Java or Kotlin. It integrates with the Android Accessibility Service to read trip details from the Uber Driver app and interacts with the on-device AI (TensorFlow Lite) for trip evaluation. The architecture is organized into several key components:
+
+- **Accessibility Setup:** Guides and assists the user in enabling the Accessibility Service so that trip details can be captured.
+- **Main Screen:** Presents a clear on/off toggle to activate or deactivate the service.
+- **Settings Panel:** Allows configuration of schedules and data preferences.
+
+This architecture is designed for scalability and maintainability by separating key functionalities into distinct sections while keeping performance high with near real-time processing and local data handling via SQLite.
+
+## 2. Design Principles
+
+The design of UberHelpV8 is guided by several core principles:
+
+- **Usability:** The interface is simple and intuitive, ensuring that a single user can operate it quickly with minimal instruction.
+- **Accessibility:** Built-in accessibility support (through Android Accessibility Service) ensures the app interacts properly with system services for capturing trip data.
+- **Responsiveness:** The UI is optimized for near real-time feedback whether toggling the service or adjusting settings.
+- **Minimalism:** A clean, uncluttered design means that only essential controls (on/off toggle and settings) are visible, reinforcing ease-of-use.
+
+These principles are applied in every aspect of the app’s user interface to ensure that even users with minimal technical knowledge can navigate and use the app effectively.
+
+## 3. Styling and Theming
+
+UberHelpV8 adopts a dark theme with a modern minimalist style inspired by Apple design aesthetics. Here are the details:
+
+- **Styling Approach:** 
+  - The design follows a flat, modern look with minimal shadows and simple, clean lines.
+  - UI elements are designed with clear contrasts and simple icons to reinforce usability.
+  - While Android native XML styling is used, the approach borrows from CSS methodologies like BEM in concept to maintain consistent and reusable styles.
+
+- **Theming:** 
+  - A consistent dark theme is applied throughout the app with emphasis on legibility and battery-efficient color schemes.
+  - UI components like toggles, buttons, and panels share a unified look to create a cohesive experience.
+
+- **Color Palette:**
+  - Background: #121212 (deep dark background for minimalism and battery efficiency)
+  - Secondary Background: #1E1E1E
+  - Primary Accent: #BB86FC (used for toggles, buttons, and highlights)
+  - Text: #FFFFFF (for clear readability on dark backgrounds)
+  - Additional Accent: #03DAC6 (optional complementary color for subtle highlights)
+
+- **Fonts:**
+  - The application uses Android’s default system font (Roboto) which ensures consistency with Android's overall design language and excellent readability on devices like the Google Pixel 9 Fold.
+
+## 4. Component Structure
+
+The app is structured around a component-based architecture, ensuring that each UI element is modular and reusable:
+
+- **Main Components:**
+  - **On/Off Toggle Component:** Central to activating the accessibility service.
+  - **Settings Panel Component:** For user configuration of schedules and data preferences.
+
+- **Reusability:**
+  - Components are developed as discrete units, making it easier to update or replace parts of the UI without the need for wide-ranging changes. 
+  - This modularity enhances maintainability and simplifies testing of individual components.
+
+## 5. State Management
+
+Given the app’s relatively simple interface, state management is straightforward but essential for ensuring a smooth user experience:
+
+- **Approach:**
+  - The app employs Android’s lifecycle-aware components (such as ViewModels and LiveData) to manage UI state and data flow between components.
+  - Changes initiated by the toggle or settings panel update the state, which triggers UI re-rendering in a controlled and reactive manner.
+  
+- **Benefits:**
+  - This ensures that user settings and the status of the accessibility service are consistently reflected across the app, reducing potential discrepancies and simplifying debugging.
+
+## 6. Routing and Navigation
+
+Although UberHelpV8 is a single-user, minimalist app, clear navigation is still essential:
+
+- **Screen Navigation:**
+  - The app consists primarily of two screens: the Main Screen (with the on/off toggle) and the Settings Panel.
+  - Navigation between these screens is smooth and intuitive, primarily driven by button taps. 
+  
+- **Routing:**
+  - Given the simplicity, there is no complex routing library required. Native Android navigation methods (using intents and fragment transactions) are sufficient to manage the transition between screens.
+
+## 7. Performance Optimization
+
+Performance is crucial, especially since near real-time processing is required. Several strategies are in place:
+
+- **Lazy Loading:** UI elements and resources are loaded only when needed, keeping the initial load light and responsive.
+- **Efficient Rendering:** By minimizing view hierarchy complexity and using efficient layouts, the app reduces rendering time.
+- **Local Processing:** All data processing and AI evaluation are handled on-device to minimize delays and maintain privacy.
+- **Code Optimization:** Native Android development best practices (like using ProGuard for code obfuscation and optimization) are employed to enhance both performance and security.
+
+## 8. Testing and Quality Assurance
+
+Ensuring the quality of the frontend is a priority. The testing strategy includes:
+
+- **Unit Testing:** Individual functions and UI components are tested using frameworks like JUnit to ensure each unit works as expected.
+- **Integration Testing:** Interaction between components (e.g., toggling the service and updating UI elements) is tested to confirm proper integration.
+- **End-to-End Testing:** Automated tests (using tools like Espresso) replicate user interactions to ensure that the entire app workflow (from enabling accessibility to accepting trips) functions correctly.
+- **Manual Testing:** Given the simple UI, periodic manual testing is performed to catch any issues that automated tests might miss.
+
+## 9. Conclusion and Overall Frontend Summary
+
+In summary, the frontend of UberHelpV8 is designed to be simple, efficient, and user-friendly. Key points include:
+
+- A clear and scalable architecture that separates core functionalities (Accessibility Setup, Main Screen, and Settings Panel)
+- Design principles focused on usability, accessibility, and responsiveness, all wrapped in a modern minimalist dark theme
+- Consistent theming with a defined color palette and use of system fonts to produce a polished yet straightforward user interface
+- A robust component structure that ensures reusability and ease of maintenance
+- Well-managed state using Android’s architecture components to reinforce responsiveness and correctness of the UI
+- Simple routing and navigation tailored for a focused app experience
+- Performance optimizations to ensure near real-time processing and a smooth user experience
+- Comprehensive testing strategies that cover unit, integration, and end-to-end tests to maintain high code quality
+
+Together, these guidelines align with the project’s goals of automating Uber trip acceptance while maximizing reliability, privacy, and user-friendliness. The frontend setup of UberHelpV8 is not only efficient but also uniquely tailored to a single-user environment on a powerful Android device, ensuring that both automation and manual controls are handled seamlessly.

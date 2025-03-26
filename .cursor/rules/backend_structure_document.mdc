@@ -1,0 +1,126 @@
+---
+description: Apply these rules when making changes to the project
+globs:
+alwaysApply: true
+---
+
+Update this rule if user requested changes to the project requirement, etc.
+# Backend Structure Document: UberHelpV8
+
+This document explains the backend setup of the UberHelpV8 app in everyday language. It’s designed so that even a non-technical reader can understand how the various parts work together to help Uber drivers maximize earnings, mainly by automatically accepting the most profitable trips.
+
+## 1. Backend Architecture
+
+The backend of UberHelpV8 is built as a mostly on-device system that ensures speed, reliability, and privacy. Here’s how it is organized:
+
+- **Modular Design:** The system is divided into several functional modules such as data storage, AI evaluation, and trip automation. Each module communicates with others using clear, defined interfaces.
+- **On-Device Focus:** Most of the operations (accessing trip details, making decisions with AI, and storing data) happen locally on the device. This minimizes dependency on external servers and helps maintain privacy.
+- **Scalability & Maintainability:** Although all data is stored locally with SQLite and on-device TensorFlow Lite, the system is designed so that if additional functionality is needed (like cloud processing with Google Firebase), it can be integrated easily.
+- **Design Patterns:** The app uses clean separation of concerns to ensure that the user interface, machine learning activity, and data management are independent, allowing easier updates and debugging.
+
+## 2. Database Management
+
+For handling data, UberHelpV8 relies on a local SQLite database. This choice fits well because:
+
+- **Local Data Storage:** All sensitive information (like trip details) stays on the device, which addresses privacy concerns.
+- **SQL Database:** SQLite is a lightweight, yet powerful, relational database. It’s well-suited for mobile applications where a full-blown external server isn’t needed.
+- **Data Organization:** Trip details, historical data, and metadata for machine learning retraining are stored in structured tables. This makes it easy to retrieve and process data quickly.
+
+Key practices include regular local backups and on-device data encryption if required by evolving security needs.
+
+## 3. Database Schema
+
+The database schema is designed in human-friendly language as well as in a SQL-based format. It contains two primary tables:
+
+### Human-Readable Format
+
+- **Trips Table:** Holds information about each trip such as the trip ID, start and end times, earnings estimates, and route details.
+- **ModelData Table:** Stores records that are used to retrain the AI model. This may include historical trip performance, sensor data, and real-time metric scores.
+
+### SQL Schema (PostgreSQL/SQLite Compatible)
+
+Below is what the schema might look like if you were to implement it in SQL:
+
+```
+-- Trips Table
+CREATE TABLE Trips (
+    trip_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME,
+    earnings_estimate REAL,
+    route_details TEXT,
+    trip_status TEXT
+);
+
+-- ModelData Table
+CREATE TABLE ModelData (
+    record_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    trip_id INTEGER,
+    metric_score REAL,
+    retrain_flag BOOLEAN DEFAULT 0,
+    record_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (trip_id) REFERENCES Trips(trip_id)
+);
+```
+
+## 4. API Design and Endpoints
+
+Since the app is largely self-contained, traditional external API endpoints are minimal. Here’s how communication is structured:
+
+- **On-Device Module Communication:** The AI module, accessibility service, and local data storage communicate through internal method calls rather than through RESTful APIs. This improves performance and minimizes network dependency.
+- **Optional Cloud Endpoints:** Should cloud processing become necessary, the app can interface with Google Firebase. In that case, endpoints could be created for functions such as syncing data or advanced analytics.
+
+Example endpoints if using Firebase might include:
+
+- POST /syncTripData: Send trip details from the device to the cloud.
+- GET /analytics: Retrieve aggregated insights from historical trip data.
+
+These endpoints are only activated if the cloud processing feature is enabled.
+
+## 5. Hosting Solutions
+
+The hosting of UberHelpV8’s backend is designed to be as simple as possible, sticking to the local device environment:
+
+- **Local Device Hosting:** The primary operations run on the device itself, meaning no external servers are involved. This provides fast response times and ensures complete privacy.
+- **Optional Cloud Integration:** With Google Firebase as an optional component, the app can offload some processing tasks or data backup. Firebase offers benefits like automatic scalability, reliability, and cost-effective cloud services.
+
+## 6. Infrastructure Components
+
+Even though the system is mainly on-device, several infrastructure components ensure it delivers a smooth experience:
+
+- **Local Cache & SQLite:** Acts as a repository for trip information and model retraining data, ensuring data is available even without an internet connection.
+- **Firebase (Optional):** If cloud processing is enabled in the future, Firebase would serve as an additional layer for data synchronization and advanced analytics.
+- **Accessibility Service:** Unique to the Android platform, this service acts as the bridge between the Uber Driver app and UberHelpV8, ensuring timely data capture for each trip.
+
+These components work together to optimize performance and make decisions quickly, even if network connectivity is temporarily absent.
+
+## 7. Security Measures
+
+Security is a top priority for every part of the system:
+
+- **Local Data Security:** With data stored in SQLite on the device, measures such as encryption and secured file storage (using Android’s built-in protections) can be implemented if needed.
+- **Authentication & Authorization:** Since the app is for personal use, traditional login gates are minimal. However, any optional cloud interfaces (like Firebase) will utilize robust authentication measures such as OAuth and token-based authorization.
+- **Data Encryption:** Both data at rest (within SQLite) and data in transit (when connecting to optional cloud services) are encrypted to safeguard sensitive information.
+- **On-Device Security:** The use of Android’s native security protocols ensures that the accessibility service and other modules are isolated and protected from unauthorized access.
+
+## 8. Monitoring and Maintenance
+
+Maintaining the health of the app is essential, even for a device-focused application:
+
+- **Performance Monitoring:** Local logging and Android Profiler tools help track performance metrics, error rates, and overall system health.
+- **Regular Updates:** The code is structured in a modular way, making updates and maintenance straightforward. This allows for faster bug fixes and feature enhancements without affecting the entire system.
+- **User-Initiated Maintenance:** In case of issues, the design allows for a simple restart (even a device reboot) to clear temporary glitches, ensuring the app remains operational.
+- **Optional Cloud Monitoring:** If Firebase services are integrated, its analytics and monitoring tools can provide additional oversight on data synchronization and backend processing.
+
+## 9. Conclusion and Overall Backend Summary
+
+To sum up, the UberHelpV8 backend is engineered to be lean and effective, focusing primarily on local processing to safeguard user data while delivering high performance. Key points include:
+
+- A modular approach ensuring the separation of UI, AI, and data management.
+- Local data storage with SQLite, providing a robust environment for the app’s AI model and trip records.
+- AI evaluation handled on-device with TensorFlow Lite, reinforcing fast decision-making.
+- Optional cloud hosting with Firebase that can scale and provide additional analytics when needed.
+- Security measures that prioritize the protection of sensitive data both on-device and in transit.
+- Infrastructure components that maintain performance even in the absence of network connectivity.
+
+This backend setup is ideal for the project’s goals of quick, private, and effective trip evaluation, and it ensures that backup options (like cloud integration) are available if further scalability or functionality becomes necessary in the future.

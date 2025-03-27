@@ -32,6 +32,14 @@ android {
     }
 }
 
+// Configure kapt to use the same JVM target as kotlinOptions
+kapt {
+    javacOptions {
+        option("-source", "11")
+        option("-target", "11")
+    }
+}
+
 dependencies {
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

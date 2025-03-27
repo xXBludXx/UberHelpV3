@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UberHelpV8</string>
+    <string name="app_name">UberHelp</string>
     <string name="accessibility_service_description">UberHelpV8 uses accessibility services to read trip details from the Uber Driver app and automatically accept profitable trips.</string>
     <string name="toggle_on">Service Active</string>
     <string name="toggle_off">Service Inactive</string>
